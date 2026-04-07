@@ -17,11 +17,7 @@ const projects = [
       'Fashion e-commerce website with modern UI, product filtering, cart functionality, and seamless checkout experience.',
     tech: ['React Vite', 'Tailwind CSS'],
     image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
-<<<<<<< HEAD
-    links: { demo: 'https://coza-store-sand.vercel.app/', github: 'https://github.com/Zeckiiee/coza-strore' },
-=======
     links: { demo: '#', github: '#' },
->>>>>>> 1683bf4253d82d1db7f6ff6e7f729f35300f578b
   },
 ];
 
