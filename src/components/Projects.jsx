@@ -9,7 +9,7 @@ const projects = [
       'A modern e-commerce platform for a premium tea brand. Features smooth animations, responsive design, and intuitive user experience.',
     tech: ['React Vite', 'Tailwind CSS'],
     image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=800&q=80',
-    links: { demo: '#', github: '#' },
+    links: { demo: 'https://enchantea-milktea-page.vercel.app/', github: 'https://github.com/Zeckiiee/enchantea' },
   },
   {
     title: 'Coza Store',
