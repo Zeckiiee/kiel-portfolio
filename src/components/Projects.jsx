@@ -221,6 +221,7 @@ const Projects = () => {
                       aria-label={`Open live demo for ${project.title}`}
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       whileTap={{ scale: 0.95 }}
+                      target="_blank"
                     >
                       <FiExternalLink />
                     </motion.a>
@@ -230,6 +231,7 @@ const Projects = () => {
                       aria-label={`Open GitHub repository for ${project.title}`}
                       whileHover={{ scale: 1.1, rotate: -5 }}
                       whileTap={{ scale: 0.95 }}
+                      target="_blank"
                     >
                       <FiGithub />
                     </motion.a>
