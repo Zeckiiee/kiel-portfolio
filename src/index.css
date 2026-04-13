@@ -716,6 +716,9 @@ textarea {
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   transform: translate3d(0, 0, 0);
   transition:
     transform 0.25s ease,
@@ -731,25 +734,130 @@ textarea {
 
 .project-image {
   position: relative;
-  height: 220px;
+  height: 240px;
   overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(7, 10, 20, 0.98) 0%, rgba(10, 12, 24, 0.95) 100%);
 }
 
-.project-image img {
+.project-visual {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(var(--project-accent-rgb), 0.2) 0%, transparent 28%),
+    radial-gradient(circle at 82% 20%, rgba(var(--project-accent-rgb), 0.16) 0%, transparent 32%),
+    linear-gradient(180deg, rgba(8, 10, 18, 0.98) 0%, rgba(12, 14, 26, 0.95) 100%);
+}
+
+.project-visual::before,
+.project-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.project-visual::before {
+  background-image:
+    radial-gradient(circle at 10% 16%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 24% 72%, rgba(255, 255, 255, 0.45) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 46% 18%, rgba(255, 255, 255, 0.6) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 68% 76%, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 84% 34%, rgba(255, 255, 255, 0.55) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 92% 14%, rgba(255, 255, 255, 0.35) 0 1px, transparent 1.4px);
+  opacity: 0.72;
+}
+
+.project-visual::after {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--project-accent-rgb), 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, transparent 0%, rgba(4, 6, 14, 0.42) 100%);
+}
+
+.project-constellation-lines {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  z-index: 1;
 }
 
-.project-card:hover .project-image img {
-  transform: scale(1.05);
+.project-constellation-lines line {
+  stroke: rgba(var(--project-accent-rgb), 0.56);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 7px rgba(var(--project-accent-rgb), 0.35));
+  transition: stroke 0.25s ease, filter 0.25s ease;
+}
+
+.project-constellation-node {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #f8f8fc;
+  z-index: 2;
+  box-shadow:
+    0 0 0 4px rgba(var(--project-accent-rgb), 0.12),
+    0 0 20px rgba(var(--project-accent-rgb), 0.48);
+  animation: constellation-pulse 4.2s ease-in-out infinite;
+}
+
+.project-preview-card {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 3;
+  width: min(74%, 250px);
+  padding: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%),
+    rgba(12, 16, 28, 0.82);
+  border: 1px solid rgba(var(--project-accent-rgb), 0.28);
+  border-radius: 14px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.project-preview-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.project-preview-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.project-preview-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(var(--project-accent-rgb), 0.16);
+  border: 1px solid rgba(var(--project-accent-rgb), 0.24);
+  color: rgb(232, 237, 255);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .project-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 10, 15, 0.8);
+  z-index: 4;
+  background: linear-gradient(180deg, rgba(6, 8, 15, 0.24) 0%, rgba(6, 8, 15, 0.84) 100%);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -760,6 +868,23 @@ textarea {
 
 .project-card:hover .project-overlay {
   opacity: 1;
+}
+
+.project-card:hover .project-preview-card {
+  transform: translate3d(0, -6px, 0);
+  border-color: rgba(var(--project-accent-rgb), 0.48);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.28);
+}
+
+.project-card:hover .project-constellation-lines line {
+  stroke: rgba(var(--project-accent-rgb), 0.78);
+  filter: drop-shadow(0 0 10px rgba(var(--project-accent-rgb), 0.5));
+}
+
+.project-card:hover .project-constellation-node {
+  box-shadow:
+    0 0 0 6px rgba(var(--project-accent-rgb), 0.16),
+    0 0 24px rgba(var(--project-accent-rgb), 0.68);
 }
 
 .project-link {
@@ -782,6 +907,19 @@ textarea {
   background: var(--accent-primary);
   color: #fff;
   transform: scale(1.08);
+}
+
+@keyframes constellation-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.18);
+    opacity: 1;
+  }
 }
 
 .project-content {
@@ -809,14 +947,22 @@ textarea {
 .project-description {
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.85rem;
   font-size: 0.95rem;
+}
+
+.project-note {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: auto;
 }
 
 .tech-tag {
